@@ -8,7 +8,7 @@ WORKDIR /app
 COPY /var/lib/jenkins/workspace/SpringBoot/target/static-ui-app-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Step 4: Expose the port used by the Spring Boot app
-EXPOSE 2222
+EXPOSE 1234
 
 # Step 5: Specify the command to run the application
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
