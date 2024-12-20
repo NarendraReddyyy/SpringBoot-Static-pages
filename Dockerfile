@@ -7,7 +7,7 @@ FROM openjdk:17-jdk-slim
 ADD target/springapp.jar springapp.jar
 
 # Step 4: Expose the port used by the Spring Boot app
-EXPOSE 8082
+EXPOSE 8080
 
 # Step 5: Specify the command to run the application
 ENTRYPOINT ["java", "-jar", "springapp.jar"]
