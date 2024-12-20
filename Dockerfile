@@ -1,6 +1,7 @@
 # Step 1: Use a base image with JDK
 #FROM openjdk:17-jdk-alpine
-FROM openjdk:11
+#FROM openjdk:11
+FROM openjdk:17-jdk-slim
 
 # Step 3: Copy the JAR file into the container
 ADD target/springapp.jar springapp.jar
