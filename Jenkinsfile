@@ -35,7 +35,7 @@ pipeline {
         }
        stage("Container") {
             steps {
-                sh 'docker run -d --name cont1 -p 8082:8082 yannamreddy/springapp'
+                sh 'docker run -d --name cont1 -p 8082:8080 yannamreddy/springapp'
  }
  }
     }
