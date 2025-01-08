@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer CRUD</title>
+    <script>
+        const apiUrl = '/api/customers'; // Base URL for the API
+
+        // Fetch all customers and display them
+        function fetchCustomers() {
+            fetch(apiUrl + '/all')
+                .then(response => response.json())
+                .then(data => {
+                    const customerList = document.getElementById('customerList');
+                    customerList.innerHTML = ''; // Clear previous list
+                    data.forEach(customer => {
+                        customerList.innerHTML += `
+                            <div>
+                                <p>ID: ${customer.id}, Name: ${customer.name}, Address: ${customer.address}, Age: ${customer.age}
+                                <button onclick="editCustomer(${customer.id})">Edit</button>
+                                <button onclick="deleteCustomer(${customer.id})">Delete</button></p>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        // Add a new customer
+        function addCustomer() {
+            const name = document.getElementById('name').value;
+            const address = document.getElementById('address').value;
+            const age = document.getElementById('age').value;
+            
+            const customer = { name, address, age };
+            
+            fetch(apiUrl + '/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(customer)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Customer added');
+                fetchCustomers(); // Refresh the customer list
+            });
+        }
+
+        // Edit an existing customer
+        function editCustomer(id) {
+            const name = prompt('Enter new name:');
+            const address = prompt('Enter new address:');
+            const age = prompt('Enter new age:');
+            
+            const customer = { name, address, age };
+            
+            fetch(apiUrl + '/update/' + id, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(customer)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Customer updated');
+                fetchCustomers(); // Refresh the customer list
+            });
+        }
+
+        // Delete a customer
+        function deleteCustomer(id) {
+            fetch(apiUrl + '/delete/' + id, { method: 'DELETE' })
+                .then(() => {
+                    alert('Customer deleted');
+                    fetchCustomers(); // Refresh the customer list
+                });
+        }
+
+        // Initialize the customer list
+        window.onload = fetchCustomers;
+    </script>
+</head>
+<body>
+    <h1>Customer CRUD Application</h1>
+
+    <h2>Add Customer</h2>
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="text" id="address" placeholder="Address" required>
+    <input type="number" id="age" placeholder="Age" required>
+    <button onclick="addCustomer()">Add</button>
+
+    <h2>Customer List</h2>
+    <div id="customerList"></div>
+</body>
+</html>
